@@ -12,13 +12,17 @@ Purpose: Holds and manipulates an unordered list of processes
 
 namespace rm {
 /// Begin LaunchGroup::Constructors
-	LaunchGroup::LaunchGroup() {}
+	LaunchGroup::LaunchGroup() {
+	
+	}
 
 	LaunchGroup::~LaunchGroup() {
 		// Clear unordered list
-		for (pointer_type proc : procs)
-			if (proc != nullptr)
+		for (pointer_type proc : procs) {
+			if (proc != nullptr) {
 				delete proc;
+			}
+		}
 	}
 /// End LaunchGroup::Constructors
 
@@ -39,8 +43,9 @@ namespace rm {
 		bool done = true;
 		for (pointer_type proc : procs) {
 			// Check if any processes have not completed
-			if (proc->Done() == false)
+			if (proc->Done() == false) {
 				done = false;
+			}
 		}
 
 		return done;
@@ -59,8 +64,9 @@ namespace rm {
 	void LaunchGroup::RunAllAsync() {
 		for (pointer_type proc : procs) {
 			proc->StartAsync();
-			if (proc->DidRun())
+			if (proc->DidRun()) {
 				procHandles.push_back(proc->GetHandle());
+			}
 		}
 		WaitForMultipleObjects(procHandles.size(), procHandles.data(), TRUE, INFINITE);
 	}
@@ -70,8 +76,9 @@ namespace rm {
 	// Purpose: Print data from each started process
 	void LaunchGroup::Print(std::wostream& outstream) {
 		for (pointer_type proc : procs) {
-			if(proc->DidRun())
+			if (proc->DidRun()) {
 				outstream << *proc;
+			}
 		}
 	}
 
@@ -80,20 +87,21 @@ namespace rm {
 	// Purpose: Print any processes which failed to start or exited with an error
 	void LaunchGroup::PrintErrors(std::wostream& outstream) {
 		for (pointer_type proc : procs) {
-			if (!proc->DidRun())
-				outstream << L"ERROR - Application not run: "
-				<< proc->GetLaunchGroup() << L": " << proc->GetApp() << L", Parameters: " << proc->GetParams() << std::endl;
-			else if (!proc->Succeded())
-				outstream << L"ERROR - Application exited with error: "
-				<< proc->GetExitCode() << L" App: " << proc->GetLaunchGroup() << L": " << proc->GetApp() << L", Parameters: " << proc->GetParams() << std::endl;
+			if (!proc->DidRun()) {
+				outstream << L"ERROR - Application not run: " 
+					<< proc->GetLaunchGroup() << L": " << proc->GetApp() << L", Parameters: " << proc->GetParams() << std::endl;
+			}
+			else if (!proc->Succeded()) {
+				outstream << L"ERROR - Application exited with error: " 
+					<< proc->GetExitCode() << L" App: " << proc->GetLaunchGroup() << L": " << proc->GetApp() << L", Parameters: " << proc->GetParams() << std::endl;
+			}
 		}
 	}
 
 	// Method: LaunchGroup::operator<<
 	// Input: output stream, Launchgroup to parse from
 	// Purpose: Calls print function
-	std::wostream& operator<<(std::wostream& lhs, LaunchGroup& rhs)
-	{
+	std::wostream& operator<<(std::wostream& lhs, LaunchGroup& rhs) {
 		rhs.Print(lhs);
 
 		return lhs;

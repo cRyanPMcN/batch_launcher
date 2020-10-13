@@ -29,7 +29,7 @@ namespace rm {
 	// Method: GetLine
 	// Purpose: Parses a single line from filestream into wstring until delimiter is reached
 	// Input: input file, output string, delimiter
-	// Output: Whether the delimiter was reached before the end of the line
+	// Output: delimiter was reached before the end of the line
 	inline bool GetLine(std::wifstream& file, std::wstring& output, wchar_t delim) noexcept {
 		wchar_t ch;
 		while (file.get(ch)) {

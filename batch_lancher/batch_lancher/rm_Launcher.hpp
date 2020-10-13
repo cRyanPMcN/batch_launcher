@@ -24,7 +24,7 @@ namespace rm {
 
 		using size_type = size_t;
 	private:	/// Variables
-		container_type lgroups;
+		container_type _launchGroups;
 	public:		/// Methods
 		/// Constructors
 		Launcher();

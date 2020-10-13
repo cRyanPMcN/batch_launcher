@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
 	cout << endl << "Printing Data: " << endl;
 	wcout << launcher;
 
+	cout << endl << "Progrma End." << endl;
 	// Everything worked
 	return EXIT_SUCCESS;
 }

@@ -14,23 +14,27 @@ Purpose: Parse input file, generate sorted launchgroups and processes
 
 namespace rm {
 /// Begin Launcher::Constructors
-	Launcher::Launcher() {}
+	Launcher::Launcher() {
+	
+	}
 
-	Launcher::~Launcher() {}
+	Launcher::~Launcher() {
+	
+	}
 /// End Launcher::Constructors
 
 /// Begin Launcher::Operations
 	// Method: rm::Launcher::Add
 	// Purpose: Handles the sorting of processes into launchgroups
 	void rm::Launcher::Add(value_type::pointer_type const& proc) {
-		lgroups[proc->GetLaunchGroup()].Add(proc);
+		_launchGroups[proc->GetLaunchGroup()].Add(proc);
 	}
 
 	// Method: rm::Launcher::RunAll
 	// Purpose: Calls launchgroups to launch processes
 	void rm::Launcher::RunAll() {
-		for (container_type::value_type& lg : lgroups) {
-			lg.second.RunAllAsync();
+		for (container_type::value_type& group : _launchGroups) {
+			group.second.RunAllAsync();
 		}
 	}
 
@@ -38,12 +42,12 @@ namespace rm {
 	// Purpose: Calls all launchgroups to print process data
 	// Reason: Did not want to give access to data structure
 	void rm::Launcher::PrintData(std::wostream& outstream) {
-		for (container_type::value_type& lg : lgroups) {
-			outstream << lg.second;
+		for (container_type::value_type& group : _launchGroups) {
+			outstream << group.second;
 		}
 		outstream << std::endl;
-		for (container_type::value_type& lg : lgroups) {
-			lg.second.PrintErrors(outstream);
+		for (container_type::value_type& group : _launchGroups) {
+			group.second.PrintErrors(outstream);
 		}
 	}
 /// End Launcher::Operations

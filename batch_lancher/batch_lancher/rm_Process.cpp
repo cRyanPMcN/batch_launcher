@@ -13,7 +13,9 @@ Purpose: Wraps C Functions for Windows processes
 namespace rm {
 /// Begin Process::Constructors
 	Process::Process(size_type lgroup, std::wstring const& app, std::wstring const& params)
-		: launchgroup(lgroup), app(app), params(params), command(L"\"" + app + L"\" " + params) {}
+		: launchgroup(lgroup), app(app), params(params), command(L"\"" + app + L"\" " + params) {
+	
+	}
 
 	Process::~Process() {
 		// Close Process handles
@@ -42,7 +44,7 @@ namespace rm {
 			// Log whether the process started
 			started = CreateProcess(NULL, commandline, NULL, NULL, false, CREATE_NEW_CONSOLE, NULL, NULL, &sinfo, &process);
 			// Destroy no longer empty string
-			delete[]commandline;
+			delete[] commandline;
 		}
 		catch (std::bad_alloc&) {
 			std::wcerr << L"Insufficient memory to launch the application." << std::endl;
@@ -100,7 +102,6 @@ namespace rm {
 		std::wstring kernalTime = oss.str();
 		// Clear stringstream
 		oss.clear();
-		oss.str(L"");
 		// Write userTime to a string
 		oss << uTime.wHour << ":" << uTime.wMinute << ":" << uTime.wSecond << "." << uTime.wMilliseconds;
 		std::wstring userTime = oss.str();
